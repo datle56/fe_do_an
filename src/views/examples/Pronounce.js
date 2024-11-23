@@ -20,7 +20,7 @@ function PronunciationApp() {
   };
 
   const handleConfirm = async () => {
-    setInputText('');
+    // setInputText('');
     setDisplayText(inputText);
 
     setMatchingResult('');
@@ -116,88 +116,118 @@ function PronunciationApp() {
   };
 
   const handlePlayRecording = () => {
-    if (audioPlayerRef.current) {
-      if (!isPlaying) {
-        // Bắt đầu phát âm thanh
-        audioPlayerRef.current.src = recordedAudio;
-        audioPlayerRef.current.play();
-        setIsPlaying(true);
+    if (recordedAudio && audioPlayerRef.current) {
+      try {
+        const audioSource = recordedAudio.startsWith('data:audio')
+          ? recordedAudio
+          : null;
 
-        // Khi âm thanh kết thúc, chuyển về trạng thái ban đầu
-        audioPlayerRef.current.onended = () => {
+        if (!audioSource) {
+          console.warn('No valid audio source available.');
+          return;
+        }
+
+        if (!isPlaying) {
+          audioPlayerRef.current.src = audioSource;
+          audioPlayerRef.current.play();
+          setIsPlaying(true);
+
+          audioPlayerRef.current.onended = () => {
+            setIsPlaying(false);
+          };
+        } else {
+          audioPlayerRef.current.pause();
+          audioPlayerRef.current.currentTime = 0;
           setIsPlaying(false);
-        };
-      } else {
-        // Dừng phát âm thanh
-        audioPlayerRef.current.pause();
-        audioPlayerRef.current.currentTime = 0;
-        setIsPlaying(false);
+        }
+      } catch (error) {
+        console.error('Error playing recording:', error);
       }
+    } else {
+      console.warn('Audio player or recorded audio is not available.');
     }
   };
 
   const handlePlayGeneratedAudio = () => {
     if (generatedAudio && audioPlayerRef.current) {
-      audioPlayerRef.current.src = generatedAudio;
-      audioPlayerRef.current.play();
+      try {
+        const audioSource = generatedAudio.startsWith('data:audio')
+          ? generatedAudio
+          : null;
+
+        if (!audioSource) {
+          console.warn('No valid audio source available.');
+          return;
+        }
+
+        audioPlayerRef.current.src = audioSource;
+        audioPlayerRef.current.play();
+      } catch (error) {
+        console.error('Error playing generated audio:', error);
+      }
+    } else {
+      console.warn('Audio player or generated audio is not available.');
     }
   };
 
-  const renderColoredText = () => {
-    if (!displayText || !matchingResult) return null;
-
-    const words = displayText.split(' ');
-    const matchingValues = matchingResult.trim().split(' ');
-
-    return words.map((word, wordIndex) => {
-      const matchingWord = matchingValues[wordIndex] || '';
-
-      return (
-        <span key={wordIndex} style={{ marginRight: '10px' }}>
-          {word.split('').map((char, charIndex) => {
-            const matchValue = matchingWord[charIndex];
-            return (
-              <span
-                key={charIndex}
-                style={{
-                  color:
-                    matchValue === '1'
-                      ? 'green'
-                      : matchValue === '0'
-                      ? 'red'
-                      : 'black',
-                }}
-              >
-                {char}
-              </span>
-            );
-          })}
-        </span>
-      );
-    });
-  };
-
-  const renderTextWithIPA = () => {
-    if (!displayText || !ipaText) return displayText;
+  const renderText = () => {
+    if (!displayText) return null;
 
     const textWords = displayText.split(' ');
     const ipaWords = ipaText.split(' ');
+    const matchingValues = matchingResult
+      ? matchingResult.trim().split(' ')
+      : [];
 
-    return textWords.map((word, index) => (
-      <div
-        key={index}
-        style={{
-          display: 'inline-block',
-          textAlign: 'center',
-          marginRight: '10px',
-        }}
-      >
-        <span style={{ fontSize: '18px' }}>{word}</span>
-        <div style={{ fontSize: '14px', color: 'gray' }}>
-          {ipaWords[index] || ''}
+    return textWords.map((word, index) => {
+      const matchingWord = matchingValues[index] || '';
+      const ipaWord = ipaWords[index] || '';
+
+      return (
+        <div
+          key={index}
+          style={{
+            display: 'inline-block',
+            textAlign: 'center',
+            marginRight: '15px',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '24px',
+              fontWeight: '600',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            {word.split('').map((char, charIndex) => {
+              const matchValue = matchingWord[charIndex];
+              const charColor =
+                matchValue === '1'
+                  ? 'green'
+                  : matchValue === '0'
+                  ? 'red'
+                  : 'black';
+
+              return (
+                <span key={charIndex} style={{ color: charColor }}>
+                  {char}
+                </span>
+              );
+            })}
+          </div>
+          <div
+            style={{
+              fontSize: '16px',
+              color: 'gray',
+              marginTop: '5px',
+            }}
+          >
+            {ipaWord}
+          </div>
         </div>
-      </div>
-    ));
+      );
+    });
   };
 
   return (
@@ -230,7 +260,7 @@ function PronunciationApp() {
                   fontWeight: '600',
                 }}
               >
-                {matchingResult ? renderColoredText() : renderTextWithIPA()}
+                {renderText()}
               </div>
             </div>
           )}
