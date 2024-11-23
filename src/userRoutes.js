@@ -15,42 +15,42 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
-import GrammarForm from "views/examples/Grammar.js";
-import ChatComponent from "views/examples/Talk";
-import Register from "views/examples/Register.js";
-import Login from "views/examples/Login.js";
-import Tables from "views/examples/Tables.js";
-import PronunciationApp from "views/examples/Pronounce";
+import Index from 'views/Index.js';
+import GrammarForm from 'views/examples/Grammar.js';
+import ChatComponent from 'views/examples/Talk';
+import Register from 'views/examples/Register.js';
+import Login from 'views/examples/Login.js';
+import Tables from 'views/examples/Tables.js';
+import PronunciationApp from 'views/examples/Pronounce';
 
 var routes = [
   {
-    path: "/index",
-    name: "",
-    icon: "",
+    path: '/index',
+    name: '',
+    icon: '',
     component: <Index />,
-    layout: "/user",
+    layout: '/user',
   },
   {
-    path: "/pronounce",
-    name: "Pronounce Checking",
-    icon: "ni ni-planet text-blue",
+    path: '/pronounce',
+    name: 'Pronounce Checking',
+    icon: 'ni ni-planet text-blue',
     component: <PronunciationApp />,
-    layout: "/user",
+    layout: '/user',
   },
   {
-    path: "/talking",
-    name: "Talking With AI",
-    icon: "ni ni-pin-3 text-orange",
+    path: '/talking',
+    name: 'Talking With AI',
+    icon: 'ni ni-pin-3 text-orange',
     component: <ChatComponent />,
-    layout: "/user",
+    layout: '/user',
   },
   {
-    path: "/grammar",
-    name: "Grammar Checking",
-    icon: "ni ni-single-02 text-yellow",
+    path: '/grammar',
+    name: 'Grammar Checking',
+    icon: 'ni ni-single-02 text-yellow',
     component: <GrammarForm />,
-    layout: "/user",
+    layout: '/user',
   },
   // {
   //   path: "/tables",

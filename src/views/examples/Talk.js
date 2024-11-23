@@ -100,7 +100,12 @@ const ChatComponent = () => {
     const text = textQueue.current.shift();
 
     // Add a new message with empty text and typing: true
-    const newMessage = { id: Date.now(), text: '', sender: 'agent', typing: true };
+    const newMessage = {
+      id: Date.now(),
+      text: '',
+      sender: 'agent',
+      typing: true,
+    };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
     // Start typing effect with the message id
@@ -201,11 +206,16 @@ const ChatComponent = () => {
       setIsRecording(false);
     } else {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
         mediaRecorder.current = new MediaRecorder(stream);
-        mediaRecorder.current.ondataavailable = (event) => audioChunks.current.push(event.data);
+        mediaRecorder.current.ondataavailable = (event) =>
+          audioChunks.current.push(event.data);
         mediaRecorder.current.onstop = () => {
-          const audioBlob = new Blob(audioChunks.current, { type: 'audio/webm; codecs=opus' });
+          const audioBlob = new Blob(audioChunks.current, {
+            type: 'audio/webm; codecs=opus',
+          });
           ws.current.send(audioBlob);
           audioChunks.current = [];
         };
@@ -219,10 +229,10 @@ const ChatComponent = () => {
 
   return (
     <div className="chat-root">
-      <div className="chat-container">
-        <div className="header">
+      <div className="chat-container shadow">
+        {/* <div className="header">
           <h1 className="header-title">Talk with AI</h1>
-        </div>
+        </div> */}
         <div ref={messagesDiv} className="messages">
           {messages.map((msg) => (
             <div key={msg.id} className={`message ${msg.sender}`}>
@@ -230,16 +240,18 @@ const ChatComponent = () => {
             </div>
           ))}
         </div>
-        <div className="input-area">
+        <div className="chat-input">
           <input
             type="text"
-            placeholder="Your turn"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Type your message..."
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
           />
           <button onClick={sendMessage}>➤</button>
-          <button onClick={handleAudioRecording}>{isRecording ? '⏹️' : '🎤'}</button>
+          <button className="voice-button" onClick={handleAudioRecording}>
+            {isRecording ? '⏹️' : '🎤'}
+          </button>
         </div>
       </div>
     </div>
