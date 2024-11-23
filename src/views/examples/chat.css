@@ -59,7 +59,7 @@
 .chat-input {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 16px;
   gap: 10px;
   border-top: 1px solid #e0e4ea;
   background: linear-gradient(135deg, #ffffff, #f9fafc);

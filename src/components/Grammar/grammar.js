@@ -50,17 +50,16 @@ function Grammar() {
           placeholder="Write something here"
           style={{
             width: '100%',
+            minHeight: '90%',
             border: '0px',
             resize: 'none',
           }}
         />
-        <Row>
-          <Col md={12} style={{ display: 'flex', justifyContent: 'end' }}>
-            <Button onClick={sendMessage} type="primary" disabled={loading}>
-              {loading ? 'Submitting...' : 'Submit'}
-            </Button>
-          </Col>
-        </Row>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
+          <Button onClick={sendMessage} type="primary" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </Button>
+        </div>
       </div>
       <div style={{ width: '50%', margin: 5, overflow: 'auto', padding: 10 }}>
         {explanation ? (
