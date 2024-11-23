@@ -1,24 +1,19 @@
 import React, { useState, useRef } from 'react';
 import './chat.css';
-import DataTest from '../../data/result.json';
 
 function PronunciationApp() {
   const [inputText, setInputText] = useState('');
   const [displayText, setDisplayText] = useState('');
   const [ipaText, setIpaText] = useState('');
-  const [predictedText, setPredictedText] = useState(DataTest.predicted_text);
-  const [matchingResult, setMatchingResult] = useState(
-    DataTest.matching_result
-  );
+  const [predictedText, setPredictedText] = useState('');
+  const [matchingResult, setMatchingResult] = useState('');
   const [isMicActive, setIsMicActive] = useState(false);
-  const [recordedAudio, setRecordedAudio] = useState(DataTest.base64_audio);
+  const [recordedAudio, setRecordedAudio] = useState(null);
   const [generatedAudio, setGeneratedAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const audioPlayerRef = useRef(null);
-
-  console.log(DataTest);
 
   const handleInputChange = (event) => {
     setInputText(event.target.value);
