@@ -27,7 +27,9 @@ function PronunciationApp() {
   const handleConfirm = async () => {
     setInputText('');
     setDisplayText(inputText);
-    setMatchingResult(null);
+
+    setMatchingResult('');
+    setPredictedText('');
 
     try {
       const response = await fetch(`http://localhost:8000/GetIPA`, {
