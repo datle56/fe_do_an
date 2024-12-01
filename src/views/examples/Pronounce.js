@@ -7,6 +7,7 @@ function PronunciationApp() {
   const [ipaText, setIpaText] = useState('');
   const [predictedText, setPredictedText] = useState('');
   const [matchingResult, setMatchingResult] = useState('');
+  const [score, setScore] = useState(0);
   const [isMicActive, setIsMicActive] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
   const [generatedAudio, setGeneratedAudio] = useState(null);
@@ -90,40 +91,41 @@ function PronunciationApp() {
     try {
       // Retrieve the token from browser storage
       const token = localStorage.getItem('token'); // Or sessionStorage depending on your authentication method
-  
+
       if (!token) {
         console.error('No authentication token found');
         return;
       }
-  
+
       const response = await fetch(
         'http://localhost:8000/GetAccuracyFromRecordedAudio',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}` // Add the token to the Authorization header
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`, // Add the token to the Authorization header
           },
           body: JSON.stringify({
-            title: inputText,
+            title: displayText,
             base64Audio: base64Audio,
             language: 'en',
             comparison_mode: 'text',
           }),
         }
       );
-  
+
       // Check if the response is ok (status in the range 200-299)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const data = await response.json();
-  
+
       setPredictedText(data.predicted_text);
       setMatchingResult(data.matching_result);
       setRecordedAudio(data.base64_audio);
+      setScore(data.score);
     } catch (error) {
       console.error('Error sending audio to backend:', error);
       // Optional: Add user-friendly error handling
@@ -321,6 +323,26 @@ function PronunciationApp() {
               </button>
             </div>
           )}
+
+          {score ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '20px',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: score >= 50 ? 'green' : 'red',
+                }}
+              >
+                {score.toFixed(1)}
+              </div>
+            </div>
+          ) : null}
 
           {/* {ipaText && (
             <div style={{ marginBottom: '20px', fontSize: '18px' }}>
