@@ -25,9 +25,10 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        localStorage.setItem('token', data.access_token);
 
         // Save the token, role, and username in localStorage
-        localStorage.setItem("access_token", data.access_token);
+        // localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("token_type", data.token_type);
         localStorage.setItem("role", data.role);
         localStorage.setItem("username", data.username);

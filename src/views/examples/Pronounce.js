@@ -88,13 +88,22 @@ function PronunciationApp() {
 
   const sendAudioToBackend = async (base64Audio) => {
     try {
+      // Retrieve the token from browser storage
+      const token = localStorage.getItem('token'); // Or sessionStorage depending on your authentication method
+  
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+  
       const response = await fetch(
         'http://localhost:8000/GetAccuracyFromRecordedAudio',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Accept: 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}` // Add the token to the Authorization header
           },
           body: JSON.stringify({
             title: inputText,
@@ -104,14 +113,21 @@ function PronunciationApp() {
           }),
         }
       );
+  
+      // Check if the response is ok (status in the range 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
       const data = await response.json();
-
+  
       setPredictedText(data.predicted_text);
       setMatchingResult(data.matching_result);
       setRecordedAudio(data.base64_audio);
-      // setGeneratedAudio(data.generated_audio);
     } catch (error) {
       console.error('Error sending audio to backend:', error);
+      // Optional: Add user-friendly error handling
+      // For example, you might want to set an error state or show a notification
     }
   };
 

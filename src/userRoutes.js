@@ -20,7 +20,7 @@ import GrammarForm from 'views/examples/Grammar.js';
 import ChatComponent from 'views/examples/Talk';
 import Register from 'views/examples/Register.js';
 import Login from 'views/examples/Login.js';
-import Tables from 'views/examples/Tables.js';
+import History from 'views/examples/history';
 import PronunciationApp from 'views/examples/Pronounce';
 
 var routes = [
@@ -52,13 +52,13 @@ var routes = [
     component: <GrammarForm />,
     layout: '/user',
   },
-  // {
-  //   path: "/tables",
-  //   name: "Tables",
-  //   icon: "ni ni-bullet-list-67 text-red",
-  //   component: <Tables />,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/history",
+    name: "Learning History",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: <History />,
+    layout: "/user",
+  },
   // {
   //   path: "/login",
   //   name: "Login",

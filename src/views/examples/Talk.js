@@ -17,19 +17,28 @@ const ChatComponent = () => {
   const messageBuffer = useRef(''); // Buffer for accumulating incoming text
 
   useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:8000/chat/ws/22');
+    const token = localStorage.getItem('token'); // Hoặc lấy token từ Redux store hoặc Context
+  
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+  
+    // Thêm token vào URL của WebSocket
+    const url = `ws://localhost:8000/chat/ws/22?token=${token}`;
+    ws.current = new WebSocket(url);
     ws.current.binaryType = 'arraybuffer';
-
+  
     ws.current.onopen = () => {
       console.log('[WebSocket] Connected to server');
       pingInterval.current = setInterval(() => {
         ws.current.send('ping');
       }, 30000);
     };
-
+  
     ws.current.onmessage = (event) => {
-      console.log('[WebSocket] Received message:', event.data); // Log the WebSocket response
-
+      console.log('[WebSocket] Received message:', event.data);
+  
       if (typeof event.data === 'string') {
         handleTextMessage(event.data);
       } else if (event.data instanceof ArrayBuffer) {
@@ -38,21 +47,22 @@ const ChatComponent = () => {
         console.warn('[WebSocket] Unknown message type:', event.data);
       }
     };
-
+  
     ws.current.onclose = () => {
       console.log('[WebSocket] Connection closed');
       clearInterval(pingInterval.current);
     };
-
+  
     ws.current.onerror = (error) => {
       console.error('[WebSocket] Error:', error);
     };
-
+  
     return () => {
       clearInterval(pingInterval.current);
       ws.current.close();
     };
   }, []);
+  
 
   const handleTextMessage = (message) => {
     if (message.startsWith('[start]')) {

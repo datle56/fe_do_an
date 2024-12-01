@@ -6,15 +6,25 @@ import Col from 'react-bootstrap/Col';
 function Grammar() {
   const [input, setInput] = useState('');
   const [explanation, setExplanation] = useState(null);
+  const [correctedSentence, setCorrectedSentence] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
     setLoading(true);
     try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+      
       const response = await fetch('http://localhost:8000/grammar/correct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Add the token to the Authorization header
+
         },
         body: JSON.stringify({ text: input }),
       });
@@ -24,9 +34,13 @@ function Grammar() {
       }
 
       const data = await response.json();
+
+      // Assuming the backend returns both explanation and corrected_sentence
       setExplanation(data.explanation || 'No explanation provided');
+      setCorrectedSentence(data.corrected_sentence || 'No corrected sentence available');
     } catch (error) {
       setExplanation(`Error: ${error.message}`);
+      setCorrectedSentence(null); // Reset corrected sentence in case of error
     } finally {
       setLoading(false);
     }
@@ -63,7 +77,17 @@ function Grammar() {
       </div>
       <div style={{ width: '50%', margin: 5, overflow: 'auto', padding: 10 }}>
         {explanation ? (
-          <div>{explanation}</div>
+          <>
+            <div>{explanation}</div>
+            {correctedSentence && (
+              <div style={{ marginTop: '20px', fontWeight: 'bold' }}>
+                Corrected Sentence:
+                <div style={{ marginTop: '10px', fontStyle: 'italic' }}>
+                  {correctedSentence}
+                </div>
+              </div>
+            )}
+          </>
         ) : (
           <div style={{ color: 'gray' }}>Response will appear here</div>
         )}
