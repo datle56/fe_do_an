@@ -69,6 +69,8 @@ const GrammarForm = () => {
       setCorrectedSentence(
         data.corrected_sentence || 'No corrected sentence available'
       );
+      setMixSentence(data.mix_sentence || 'No mix sentence available');
+      setColor(data.colour || '');
     } catch (error) {
       setExplanation(`Error: ${error.message}`);
       setCorrectedSentence(null); // Reset corrected sentence in case of error
