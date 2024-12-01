@@ -4,11 +4,9 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import './chat.css';
 
-import historyData from '../../data/history';
-
 function History() {
-  const [history, setHistory] = useState(historyData); // Store all history data
-  const [filteredHistory, setFilteredHistory] = useState(historyData); // Store filtered history
+  const [history, setHistory] = useState([]); // Store all history data
+  const [filteredHistory, setFilteredHistory] = useState([]); // Store filtered history
   const [selectedFeature, setSelectedFeature] = useState(''); // Store selected feature
 
   // Fetch the user's history data
