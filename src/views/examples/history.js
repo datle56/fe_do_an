@@ -12,7 +12,12 @@ function History() {
   // Fetch the user's history data
   const fetchHistory = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/history');
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:8000/history', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setHistory(response.data); // Update all history data
     } catch (error) {
       console.error('Error fetching history', error);
