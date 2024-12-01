@@ -39,7 +39,7 @@ root.render(
       <Route path="/register" element={<Register />} />
       <Route path="/admin/*" element={<AdminLayout />} />
       <Route path="/user/*" element={<UserLayout />} />
-      <Route path="/" element={<Homepage />} />
+      <Route path="/" element={<UserLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
