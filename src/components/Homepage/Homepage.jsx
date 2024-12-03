@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Homepage() {
   const [bgIndex, setBgIndex] = useState(0);
@@ -51,8 +52,8 @@ function Homepage() {
         </h1>
 
         <div style={{ display: 'flex', gap: '16px' }}>
-          <a
-            href="#"
+          <Link
+            to="/login"
             style={{
               backgroundColor: 'white',
               color: 'black',
@@ -75,9 +76,9 @@ function Homepage() {
             }}
           >
             Login
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/register"
             style={{
               backgroundColor: 'black',
               color: 'white',
@@ -91,7 +92,7 @@ function Homepage() {
             }}
             onMouseOver={(e) => {
               e.target.style.backgroundColor = '#444';
-              e.target.style.transform = 'scale(1.05)';
+              e.target.style.transform = 'scale(1.02)';
             }}
             onMouseOut={(e) => {
               e.target.style.backgroundColor = 'black';
@@ -99,7 +100,7 @@ function Homepage() {
             }}
           >
             Register
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -113,7 +114,6 @@ function Homepage() {
           height: '80vh',
           backgroundColor: '#333',
           color: 'white',
-          textAlign: 'center',
           padding: '0 20px',
           backgroundImage: backgrounds[bgIndex],
           backgroundSize: 'cover',
@@ -148,7 +148,7 @@ function Homepage() {
             fontWeight: '700',
             color: '#333',
             marginBottom: '40px',
-            textAlign: 'center',
+
             marginBottom: '0px',
           }}
         >
@@ -171,45 +171,18 @@ function Homepage() {
               borderRadius: '12px',
               boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
               width: '380px',
-              textAlign: 'center',
+
               marginTop: '20px',
             }}
           >
-            <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'black' }}>
               Grammar Check
             </h3>
-            <p
-              style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}
-            >
+            <p style={{ fontSize: '14px', color: '#555' }}>
               Improve your writing skills with the AI-powered smart grammar
               checker. It helps you detect and correct grammar errors in your
               writing, ensuring your writing is clearer and more accurate.
             </p>
-            <a
-              href="#"
-              style={{
-                backgroundColor: 'black',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: '500',
-                marginTop: '20px',
-                transition: 'background-color 0.3s ease, transform 0.3s ease',
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#444';
-                e.target.style.transform = 'scale(1.05)';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = 'black';
-                e.target.style.transform = 'scale(1)';
-              }}
-            >
-              Try Now
-            </a>
           </div>
 
           <div
@@ -219,45 +192,18 @@ function Homepage() {
               borderRadius: '12px',
               boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
               width: '380px',
-              textAlign: 'center',
+
               marginTop: '20px',
             }}
           >
-            <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'black' }}>
               Pronunciation Check
             </h3>
-            <p
-              style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}
-            >
+            <p style={{ fontSize: '14px', color: '#555' }}>
               Improve your pronunciation with AI-powered tests and feedback. It
               helps you identify and correct pronunciation errors, giving you
               more confidence when communicating in real-life situations.
             </p>
-            <a
-              href="#"
-              style={{
-                backgroundColor: 'black',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: '500',
-                marginTop: '20px',
-                transition: 'background-color 0.3s ease, transform 0.3s ease',
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#444';
-                e.target.style.transform = 'scale(1.05)';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = 'black';
-                e.target.style.transform = 'scale(1)';
-              }}
-            >
-              Try Now
-            </a>
           </div>
 
           <div
@@ -267,46 +213,18 @@ function Homepage() {
               borderRadius: '12px',
               boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
               width: '380px',
-              textAlign: 'center',
               marginTop: '20px',
             }}
           >
-            <h3 style={{ fontSize: '20px', fontWeight: '600' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: '600', color: 'black' }}>
               Message with AI
             </h3>
-            <p
-              style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}
-            >
+            <p style={{ fontSize: '14px', color: '#555' }}>
               Chat with AI to practice your language skills in a natural and fun
               way. You can practice conversations, improve your language
               reflexes, and expand your vocabulary through intelligent and
               lively conversations.
             </p>
-            <a
-              href="#"
-              style={{
-                backgroundColor: 'black',
-                color: 'white',
-                padding: '8px 24px',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: '500',
-                marginTop: '20px',
-                transition: 'background-color 0.3s ease, transform 0.3s ease',
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#444';
-                e.target.style.transform = 'scale(1.05)';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = 'black';
-                e.target.style.transform = 'scale(1)';
-              }}
-            >
-              Try Now
-            </a>
           </div>
         </div>
       </section>
@@ -318,7 +236,6 @@ function Homepage() {
           alignItems: 'center',
           backgroundColor: '#333',
           color: 'white',
-          textAlign: 'center',
           fontSize: '14px',
           padding: '12px 0',
         }}

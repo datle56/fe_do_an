@@ -4,9 +4,11 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import './chat.css';
 
+import historyData from '../../data/history.json';
+
 function History() {
-  const [history, setHistory] = useState([]); // Store all history data
-  const [filteredHistory, setFilteredHistory] = useState([]); // Store filtered history
+  const [history, setHistory] = useState(historyData); // Store all history data
+  const [filteredHistory, setFilteredHistory] = useState(historyData); // Store filtered history
   const [selectedFeature, setSelectedFeature] = useState(''); // Store selected feature
 
   // Fetch the user's history data
@@ -114,7 +116,6 @@ function History() {
               <th>Time</th>
             </tr>
           </thead>
-
           <tbody>
             {filteredHistory.map((historyItem, index) => (
               <tr key={index}>
@@ -122,7 +123,8 @@ function History() {
                   style={{
                     wordWrap: 'break-word',
                     wordBreak: 'break-word',
-                    maxWidth: '250px',
+                    maxWidth: '200px',
+                    whiteSpace: 'normal',
                   }}
                 >
                   {historyItem.id}
@@ -131,7 +133,8 @@ function History() {
                   style={{
                     wordWrap: 'break-word',
                     wordBreak: 'break-word',
-                    maxWidth: '250px',
+                    maxWidth: '200px',
+                    whiteSpace: 'normal',
                   }}
                 >
                   {historyItem.feature}
@@ -140,7 +143,8 @@ function History() {
                   style={{
                     wordWrap: 'break-word',
                     wordBreak: 'break-word',
-                    maxWidth: '250px',
+                    maxWidth: '200px',
+                    whiteSpace: 'normal',
                   }}
                 >
                   {historyItem.input_data}
@@ -149,7 +153,8 @@ function History() {
                   style={{
                     wordWrap: 'break-word',
                     wordBreak: 'break-word',
-                    maxWidth: '250px',
+                    maxWidth: '200px',
+                    whiteSpace: 'normal',
                   }}
                 >
                   {historyItem.feature === 'Pronunciation'
@@ -163,7 +168,8 @@ function History() {
                   style={{
                     wordWrap: 'break-word',
                     wordBreak: 'break-word',
-                    maxWidth: '250px',
+                    maxWidth: '200px',
+                    whiteSpace: 'normal',
                   }}
                 >
                   {new Date(historyItem.created_at).toLocaleString()}

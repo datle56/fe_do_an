@@ -136,3 +136,12 @@
   transform: scale(1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.chat-container {
+  white-space: normal; /* Cho phép xuống dòng */
+}
+
+table td {
+  word-wrap: break-word; /* Tự động xuống dòng khi cần */
+  word-break: break-all; /* Cắt từ nếu không đủ không gian */
+}

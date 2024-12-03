@@ -1,380 +1,173 @@
-import React, { useState } from "react";
-import { Button, Col, Row, Input, Space, Checkbox, message, Image } from "antd";
-import { HomeOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Link, NavLink } from "react-router-dom";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import * as z from 'zod';
 
-const linkStyle = {
-  textDecoration: "underline",
-  color: "#bdc3c7",
-};
+const loginSchema = z.object({
+  email: z
+    .string()
+    .email('Invalid email address')
+    .nonempty('Email is required'),
+  password: z
+    .string()
+    .min(6, 'Password must be at least 6 characters')
+    .nonempty('Password is required'),
+});
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({ username, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        localStorage.setItem('token', data.access_token);
-
-        // Save the token, role, and username in localStorage
-        // localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("token_type", data.token_type);
-        localStorage.setItem("role", data.role);
-        localStorage.setItem("username", data.username);
-
-        message.success("Login successful");
-
-        // Redirect based on role
-        if (data.role === "admin") {
-          window.location.href = "/admin";
-        } else if (data.role === "user") {
-          window.location.href = "/user/grammar";
-        }
-      } else {
-        message.error("Incorrect username or password");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: async (data) => {
+      try {
+        loginSchema.parse(data);
+        return { values: data, errors: {} };
+      } catch (err) {
+        return {
+          values: {},
+          errors: err.errors.reduce((acc, { path, message }) => {
+            acc[path[0]] = { message };
+            return acc;
+          }, {}),
+        };
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      message.error("An error occurred during login");
-    }
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log('Login data:', data);
   };
 
   return (
-    <div>
-      <Row>
-        <Col
-          span={12}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "4rem",
-          }}
-        >
-          <Button
-            className="home-button"
-            style={{
-              background: "#6b8f73",
-              width: "6rem",
-              padding: "0.5rem",
-              fontSize: "1em",
-              display: "flex",
-              color: "#ecf0f1",
-              gap: "0.5rem",
-              alignItems: "center",
-              textAlign: "center",
-              paddingLeft: "12px",
-            }}
-          >
-            <Link to="/home">
-              <HomeOutlined style={{ marginRight: "0.5rem" }} />
-              Home
-            </Link>
-          </Button>
-          <div className="title" style={{ marginTop: "2rem" }}>
-            <p style={{ fontSize: "2.3rem" }}>
-              Sign in to <b>Speak</b>
-            </p>
-            <p>Welcome to SPEAK</p>
-          </div>
-          <div className="email-password-input" style={{ marginTop: "2rem" }}>
-            <Space direction="vertical" style={{ width: "100%" }}>
-              <Input
-                placeholder="Email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <Input.Password
-                placeholder="Password"
-                iconRender={(visible) =>
-                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                }
-                style={{ marginTop: "1rem" }}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Space>
-          </div>
-          <div className="input-list-check-link" style={{ marginTop: "1rem" }}>
-            <div
-              className="checkbox-and-link-forget-password"
-              style={{
-                display: "flex",
-                direction: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Checkbox>Remember me</Checkbox>
-              <a style={linkStyle} href="/forgot-password">
-                Forgot password
-              </a>
-            </div>
-            <Button
-              style={{
-                width: "100%",
-                background: "#6b8f73",
-                marginTop: "1rem",
-                color: "#ffffff",
-              }}
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-          </div>
-          <div
-            className="link-sign-tup-login-tutor"
-            style={{ marginTop: "2rem" }}
-          >
-            <Link to="/register" style={{ ...linkStyle, marginRight: "4rem" }}>
-              Or Sign Up
-            </Link>
-          </div>
-        </Col>
-
-        <Col span={12} style={{ padding: "6rem", width: "110%" }}>
-          <Image src="https://www.shutterstock.com/image-vector/man-key-near-computer-account-260nw-1499141258.jpg" />
-        </Col>
-      </Row>
-      <div
-        className="footer1"
+    <div style={{ width: '100%', minHeight: '100vh', background: 'white' }}>
+      <nav
         style={{
-          width: "100%",
-          backgroundColor: "#44624a",
-          color: "white",
-          height: "24rem",
+          display: 'flex',
+          maxWidth: '1240px',
+          margin: '0 auto',
+          justifyContent: 'space-between',
+          width: '100%',
+          height: '72px',
+          padding: '12px 20px',
+          alignItems: 'center',
         }}
       >
-        <Row>
-          <Col span={6} style={{ padding: "2rem", marginTop: "30px" }}>
-            <h3
+        <Link
+          to="/"
+          style={{
+            fontWeight: 700,
+            margin: 0,
+            color: 'black',
+            cursor: 'pointer',
+            fontSize: '28px',
+            letterSpacing: '1px',
+          }}
+        >
+          Speak
+        </Link>
+      </nav>
+
+      <section
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '80vh',
+          padding: '20px',
+        }}
+      >
+        <h2
+          style={{
+            width: '400px',
+            fontSize: '32px',
+            fontWeight: '700',
+            marginBottom: '24px',
+            textAlign: 'left',
+          }}
+        >
+          Login
+        </h2>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            maxWidth: '400px',
+            width: '100%',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <input
+              type="email"
+              {...register('email')}
+              placeholder="Email"
               style={{
-                color: "#fff",
-                fontSize: "large",
-                fontWeight: "bold",
-                marginBottom: "18px",
-              }}
-            >
-              ABOUT US
-            </h3>
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Mission & Vision
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Our Company
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Our Projects
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Our Team
-            </NavLink>
-          </Col>
-          <Col span={6} style={{ padding: "2rem", marginTop: "30px" }}>
-            <h3
-              style={{
-                color: "#fff",
-                fontSize: "large",
-                fontWeight: "bold",
-                marginBottom: "18px",
-              }}
-            >
-              DISCOVER
-            </h3>
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Projects & Research
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Clients Review
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Our Projects
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Our Team
-            </NavLink>
-          </Col>
-          <Col span={6} style={{ padding: "2rem", marginTop: "30px" }}>
-            <h3
-              style={{
-                color: "#fff",
-                fontSize: "large",
-                fontWeight: "bold",
-                marginBottom: "18px",
-              }}
-            >
-              USEFUL LINKS
-            </h3>
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Contact Us
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Terms & Conditions
-            </NavLink>
-            <br />
-            <NavLink
-              style={{
-                color: "white",
-                margin: "1rem 0px 0px ",
-                fontSize: "mediumm",
-                fontWeight: "500",
-              }}
-              to="/"
-            >
-              Review
-            </NavLink>
-          </Col>
-          <Col span={6} style={{ padding: "2rem", marginTop: "30px" }}>
-            <h3
-              style={{
-                color: "#fff",
-                fontSize: "large",
-                fontWeight: "bold",
-                marginBottom: "18px",
-              }}
-            >
-              SPEAK
-            </h3>
-            <p style={{ color: "#B2B3CF" }}>
-              Seize Potential, Enhance & Acquire Knowledge
-            </p>
-            <p style={{ color: "#B2B3CF" }}>
-              Subscribe to get our Newsletter
-            </p>
-            <Input
-              placeholder="Enter email"
-              style={{
-                background: "transparent",
-                borderRadius: "30px",
-                width: "100%",
-                marginBottom: "1rem",
+                padding: '8px 24px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                border: errors.email ? '2px solid red' : '2px solid #ccc',
               }}
             />
-            <Button
-              variant="primary"
-              type="submit"
+            {errors.email && (
+              <span style={{ color: 'red', fontSize: '14px' }}>
+                {errors.email.message}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <input
+              type="password"
+              {...register('password')}
+              placeholder="Password"
               style={{
-                width: "100%",
-                backgroundColor: "#5e72e4",
-                color: "white",
+                padding: '8px 24px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                border: errors.password ? '2px solid red' : '2px solid #ccc',
               }}
-            >
-              Submit
-            </Button>
-            <p style={{ color: "white", marginTop: "1rem" }}>
-              We'll never share your email with anyone else.
-            </p>
-          </Col>
-        </Row>
-        <Row>
-          <Col
-            span={24}
+            />
+            {errors.password && (
+              <span style={{ color: 'red', fontSize: '14px' }}>
+                {errors.password.message}
+              </span>
+            )}
+          </div>
+
+          <button
+            type="submit"
             style={{
-              textAlign: "center",
-              color: "#B2B3CF",
-              fontSize: "15px",
+              padding: '8px 24px',
+              backgroundColor: 'black',
+              color: 'white',
+              borderRadius: '8px',
+              marginTop: '16px',
+              transition: 'background-color 0.3s ease, transform 0.3s ease',
+            }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = '#444';
+              e.target.style.transform = 'scale(1.02)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.backgroundColor = 'black';
+              e.target.style.transform = 'scale(1)';
             }}
           >
-            © 2021 Class Technologies Inc.
-          </Col>
-        </Row>
-      </div>
+            Login
+          </button>
+        </form>
+
+        <p style={{ marginTop: '12px', color: '#888', fontSize: '14px' }}>
+          Don't have a account?{' '}
+          <Link to="/register" style={{ fontWeight: 600, color: 'black' }}>
+            Register
+          </Link>
+        </p>
+      </section>
     </div>
   );
 }
