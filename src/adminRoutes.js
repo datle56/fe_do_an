@@ -15,29 +15,21 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
-import GrammarForm from "views/examples/Grammar.js";
-import Register from "views/examples/Register.js";
-import Login from "views/examples/Login.js";
-import Tables from "views/examples/Tables.js";
-import PronunciationApp from "views/examples/Pronounce";
-import UserListForm from "views/admin/users.js";
-
+import Index from 'views/Index.js';
+import GrammarForm from 'views/examples/Grammar.js';
+import Register from 'views/examples/Register.js';
+import Login from 'views/examples/Login.js';
+import Tables from 'views/examples/Tables.js';
+import PronunciationApp from 'views/examples/Pronounce';
+import UserListForm from 'views/admin/users.js';
 
 var routes = [
   {
-    path: "/index",
-    name: "",
-    icon: "",
-    component: <Index />,
-    layout: "/admin",
-  },
-  {
-    path: "/pronounce",
-    name: "User Management ",
-    icon: "ni ni-planet text-blue",
+    path: '/pronounce',
+    name: 'User Management ',
+    icon: 'ni ni-planet text-blue',
     component: <UserListForm />,
-    layout: "/admin",
+    layout: '/admin',
   },
   // {
   //   path: "/talking",

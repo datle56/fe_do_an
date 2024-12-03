@@ -25,13 +25,6 @@ import PronunciationApp from 'views/examples/Pronounce';
 
 var routes = [
   {
-    path: '/index',
-    name: '',
-    icon: '',
-    component: <Index />,
-    layout: '/user',
-  },
-  {
     path: '/pronounce',
     name: 'Pronounce Checking',
     icon: 'ni ni-planet text-blue',
@@ -53,11 +46,11 @@ var routes = [
     layout: '/user',
   },
   {
-    path: "/history",
-    name: "Learning History",
-    icon: "ni ni-bullet-list-67 text-red",
+    path: '/history',
+    name: 'Learning History',
+    icon: 'ni ni-bullet-list-67 text-red',
     component: <History />,
-    layout: "/user",
+    layout: '/user',
   },
   // {
   //   path: "/login",
