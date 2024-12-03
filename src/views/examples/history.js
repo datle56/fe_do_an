@@ -114,13 +114,44 @@ function History() {
               <th>Time</th>
             </tr>
           </thead>
+
           <tbody>
             {filteredHistory.map((historyItem, index) => (
               <tr key={index}>
-                <td>{historyItem.id}</td>
-                <td>{historyItem.feature}</td>
-                <td>{historyItem.input_data}</td>
-                <td>
+                <td
+                  style={{
+                    wordWrap: 'break-word',
+                    wordBreak: 'break-word',
+                    maxWidth: '250px',
+                  }}
+                >
+                  {historyItem.id}
+                </td>
+                <td
+                  style={{
+                    wordWrap: 'break-word',
+                    wordBreak: 'break-word',
+                    maxWidth: '250px',
+                  }}
+                >
+                  {historyItem.feature}
+                </td>
+                <td
+                  style={{
+                    wordWrap: 'break-word',
+                    wordBreak: 'break-word',
+                    maxWidth: '250px',
+                  }}
+                >
+                  {historyItem.input_data}
+                </td>
+                <td
+                  style={{
+                    wordWrap: 'break-word',
+                    wordBreak: 'break-word',
+                    maxWidth: '250px',
+                  }}
+                >
                   {historyItem.feature === 'Pronunciation'
                     ? coloredText(
                         historyItem.input_data,
@@ -128,7 +159,15 @@ function History() {
                       )
                     : historyItem.output_data}
                 </td>
-                <td>{new Date(historyItem.created_at).toLocaleString()}</td>
+                <td
+                  style={{
+                    wordWrap: 'break-word',
+                    wordBreak: 'break-word',
+                    maxWidth: '250px',
+                  }}
+                >
+                  {new Date(historyItem.created_at).toLocaleString()}
+                </td>
               </tr>
             ))}
           </tbody>
