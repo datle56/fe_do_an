@@ -10,7 +10,6 @@ function PronunciationApp() {
   const [score, setScore] = useState(0);
   const [isMicActive, setIsMicActive] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
-  const [generatedAudio, setGeneratedAudio] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -26,6 +25,8 @@ function PronunciationApp() {
 
     setMatchingResult('');
     setPredictedText('');
+
+    setScore(0);
 
     try {
       const response = await fetch(`http://localhost:8000/GetIPA`, {
@@ -163,28 +164,6 @@ function PronunciationApp() {
       }
     } else {
       console.warn('Audio player or recorded audio is not available.');
-    }
-  };
-
-  const handlePlayGeneratedAudio = () => {
-    if (generatedAudio && audioPlayerRef.current) {
-      try {
-        const audioSource = generatedAudio.startsWith('data:audio')
-          ? generatedAudio
-          : null;
-
-        if (!audioSource) {
-          console.warn('No valid audio source available.');
-          return;
-        }
-
-        audioPlayerRef.current.src = audioSource;
-        audioPlayerRef.current.play();
-      } catch (error) {
-        console.error('Error playing generated audio:', error);
-      }
-    } else {
-      console.warn('Audio player or generated audio is not available.');
     }
   };
 
